@@ -47,12 +47,12 @@ def PreProcess(image, template):
     adaptive_threshold_template = cv2.adaptiveThreshold(median_blur_template, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 85, 11)
     print("  + Adaptive Threshold.")
     
-    kernel = np.ones((1, 2), np.uint8)
-    dilation_image = cv2.dilate(adaptive_threshold_image, kernel, iterations=1)
-    dilation_template = cv2.dilate(adaptive_threshold_template, kernel, iterations=1)
-    print("  + Dilation.")
+    # kernel = np.ones((1, 2), np.uint8)
+    # dilation_image = cv2.dilate(adaptive_threshold_image, kernel, iterations=1)
+    # dilation_template = cv2.dilate(adaptive_threshold_template, kernel, iterations=1)
+    # print("  + Dilation.")
     
-    return dilation_image, dilation_template
+    return adaptive_threshold_image, adaptive_threshold_template
 
 
 def main(image, template):
