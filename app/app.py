@@ -8,10 +8,11 @@ import matplotlib.pyplot as plt
 import imutils
 import pytesseract
 import sys
+import os
+import time
 
 def Setup(image_path, template_path):
     image, template = load.load_image(image_path, template_path)
-    
     return image, template
 
 def PreProcess(image, template):
@@ -57,24 +58,28 @@ def PreProcess(image, template):
 
 def main(image, template):
     try:
+        start_time = time.time() 
         image, template = Setup(image, template)
         pp_image, pp_template = PreProcess(image, template)
-        
-        print("\n----------- MAIN ------------\n")
+
+        print("\n------------ OCR ------------\n")
         print("  - Display Image.")
         display.show_image(pp_image, "image")
         display.show_image(pp_template, "template")
-    
+
     except Exception as e:
-        print("An error occurred:", str(e))
+        print("  !! ERROR:", str(e))
     finally:
+        elapsed_time = time.time() - start_time 
+        print("\nElapsed Time: {:.2f} seconds".format(elapsed_time))
         display.exit_app()
 
 if __name__ == "__main__":
+    os.system('cls' if os.name == 'nt' else 'clear')
     print("\n----------- SETUP ------------\n")
-    example = input("Select Image: ")
+    example = input("  - Select Image: ")
     IMAGE_PATH = '../image/' + example + '.jpg'
-    print("Selected: ", IMAGE_PATH)
+    print("  - Selected: ", IMAGE_PATH)
     # IMAGE_PATH = '../image/1.jpg'
     TEMPLATE_PATH = '../template/idCard.png'
     main(IMAGE_PATH, TEMPLATE_PATH)
