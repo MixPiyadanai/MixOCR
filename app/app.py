@@ -10,6 +10,7 @@ import pytesseract
 import sys
 import os
 import time
+import draw
 
 def scan(img):
     # Resize image to workable size
@@ -126,23 +127,6 @@ def resize_image(image, template):
         print("  - Resized Image size: {} x {} pixels.".format(template_width, new_height))
     return process_image
 
-def draw_rectangle(image):
-    rect_color = (0, 255, 0) 
-    rect_thickness = 2
-    rect_x1 = 510
-    rect_y1 = 75
-    rect_x2 = 1000
-    rect_y2 = 145
-
-    cv2.rectangle(image, (rect_x1, rect_y1), (rect_x2, rect_y2), rect_color, rect_thickness)
-
-    roi = image[rect_y1:rect_y2, rect_x1:rect_x2]
-
-    text = pytesseract.image_to_string(roi)
-
-    return image, text
-
-
 def Setup(image_path, template_path):
     image, template = load.load_image(image_path, template_path)
     return image, template
@@ -155,10 +139,10 @@ def main(image, template):
         print("  - Display Image.")
         crop_img = scan(image)
         resize_img = resize_image(crop_img, template)
-        image_with_rectangle, text = draw_rectangle(resize_img)
-        display.show_image(image_with_rectangle, "image")
+        print("")
+        drawed_img, result = draw.startDraw(resize_img)
+        display.show_image(drawed_img, "image")
         display.show_image(template, "template")
-        print("  - " + text)
 
     except Exception as e:
         print("  !! ERROR:", str(e))
